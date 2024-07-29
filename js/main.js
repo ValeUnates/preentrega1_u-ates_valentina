@@ -4,31 +4,111 @@ function saludar(){
     alert("¡Bienvenid@ " + nombre + " a BLURA INDUMENTARIA!");
 }
 saludar();
+
+const buzos = [
+    {
+        color:gris,
+        precio: $18,
+        srock: true,
+    },
+    {
+    color: azul,
+    precio: $18,
+    stock: true,
+    },
+    {
+    color: negro,
+    precio: $20,
+    stock: false,
+    },
+    {
+    color: blanco,
+    precio: $19,
+    stock: true,
+    },
+    {
+    color: rojo,
+    precio: $15,
+    stock: false,
+    },
+]
+const remeras = [
+    {
+    color: gris,
+    precio: $10,
+    stock: false,
+    },
+    {
+    color: azul,
+    precio: $5,
+    stock: true,
+    },
+    {
+    color: negro,
+    precio: $8,
+    stock: false,
+    },
+    {
+    color: blanco,
+    precio: $10,
+    stock: true,
+    },
+    {
+    color: rojo,
+    precio: $9,
+    stock: true,
+    },
+]
+class prod{
+    constructor(color, precio, stock){
+        this.color = color;
+        this.precio= precio;
+        this.stock= stock;
+    }
+}
+
 do{
-    opciones = parseInt(prompt("Menú de opciones\n\n 1. Ver Buzos\n\n 2.Ver Remeras \n\n 3.Para calcular el valor de tu compra\n\n Para salir, ingrese 0"));
+    opciones = parseInt(prompt(`Menú de opciones:
+        1.Ver Buzos.
+        2.Ver Remeras.
+        3.Para consultar stock.
+        Para salir, ingrese 0`));
     switch (opciones) {
         case 0:
             alert("Gracias por tu visita, esperamos tu regreso!");
             break;
         case 1:
             let opcionUno = "Buzos:";
-            alert(opcionUno + "\n Gris ($15)\n Azul ($18)\n Negro ($20)\n Blanco ($19)\n Rojo ($15)\n (Aceptar para volver al menú)" );
+            alert(`${opcionUno} ${buzos} (Aceptar para volver al menú)` );
             break;
         case 2:
             let opcionDos= "Remeras:"
-            alert(opcionDos + "\n Gris ($5)\n Azul ($8)\n Negra ($10)\n Blanca ($9)\n Roja ($5)\n (Aceptar para volver al menú)");
+            alert(`${opcionDos} ${remeras} (Aceptar para volver al menú)`);
             break;
         case 3:
-            function suma(){
-                alert("Podés sumar hasta 5 productos");
-                const productoUno=parseInt(prompt("Ingrese el valor del primer producto"));
-                const productoDos=parseInt(prompt("Ingrese el valor del segundo producto"));
-                const productoTres=parseInt(prompt("Ingrese el valor del tercer producto"));
-                const productoCuatro=parseInt(prompt("Ingrese el valor del cuarto producto"));
-                const productoCinco=parseInt(prompt("Ingrese el valor del quinto producto"));
-                alert("El resultado es " + "$" + (productoUno + productoDos + productoTres + productoCuatro + productoCinco));
+            function filtrarSock(stock) {
+                if (stock) {
+                    const stock = productos.filter(el => el.stock);
+                    console.log(`Pediste stock de buzos ${buzos.stock}`);
+                    alert("Mirá en la consola el stock disponible");
+                } else {
+                    const sinStock = productos.filter(el => !el.stock);
+                    console.log(`Pediste los proximos ingresos: ${!stock}`);
+                    alert("Mirá en la consola los productos que vamos a sumar al stock");
+                }
             }
-            suma();
+            case 4:
+            function filtrarSock(stock) {
+                if (stock) {
+                    const stock = productos.filter(el => el.stock);
+                    console.log(`Pediste stock de buzos ${remeras.stock}`);
+                    alert("Mirá en la consola el stock disponible");
+                } else {
+                    const sinStock = productos.filter(el => !el.stock);
+                    console.log(`Pediste los proximos ingresos: ${!stock}`);
+                    alert("Mirá en la consola los productos que vamos a sumar al stock");
+                }
+            }
             break;
         default:
             alert("Opcion inválida, ingresá una opcion que este dentro del menú de opciones.")
