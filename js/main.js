@@ -1,133 +1,67 @@
-let nombre = prompt('Ingrese su nombre').toUpperCase()
-function saludar(){
-    alert(`Bienvenid@ ${nombre} a BLURA INDUMENTARIA`)
-}
-saludar();
-
-const listaDeProductos = [
-    {
-        nombreDelProducto: "BUZO LATINA",
-        stock: true,
-        precio: '$150',
-        color: 'GRIS'
-    },
-    {
-        nombreDelProducto: "REMERA MARÍA",
-        stock: true,
-        precio: '$100',
-        color: 'BLANCO'
-    },
-    {
-        nombreDelProducto: "PANTALÓN MALIBÚ",
-        stock: true,
-        precio: '$350',
-        color: 'BURDEOS'
-
-    },
-    {
-        nombreDelProducto: "SWETER LISBOA",
-        stock: true,
-        precio: '$400',
-        color: 'NEGRO'
-    },
-    {
-        nombreDelProducto: "NIKE AF1",
-        stock: true,
-        precio: '$300',
-        color: 'ROJO'
-    },
-    {
-        nombreDelProducto: "TAPADO LONDRES",
-        stock: true,
-        precio: '$300',
-        color: 'BEIGE'
-    },
-    {
-        nombreDelProducto: "JEAN MOM",
-        stock: false,
-        precio: '$75',
-        color: 'CELESTE'
-    },
-    {
-        nombreDelProducto: "BLAZER TOKYO",
-        stock: true,
-        precio: '$100',
-        color: 'MARRÓN'
-    },
-    {
-        nombreDelProducto: "CALZA LARGA",
-        stock: false,
-        precio: '$150',
-        color: 'MORADO'
-    },
-    {
-        nombreDelProducto: "CALZA 3/4",
-        stock: true,
-        precio: '$200',
-        color: 'BATIK'
-    },
-    {
-        nombreDelProducto: "REMERA NIKE DEPORTIVA",
-        stock: false,
-        precio: '$40',
-        color: 'AMARILLO'
-    },
-    {
-        nombreDelProducto: "CARTERA",
-        stock: true,
-        precio: '$45',
-        color: 'AZUL'
-    },
-];
-class productos {
-    constructor (nombreDelProducto, stock, precio, color){
-        this.nombreDelProducto = nombreDelProducto;
-        this.stock = stock;
-        this.precio = precio;
-        this.color =color;
-    };
-};
-do{
-    opcion = parseInt(prompt(`Menú de opciones:
-
-        INGRESE UNA OPCION
-        1. Todos los productos
-        2. Stock inmediato
-        3. Buscar producto por nombre
-        4. Buscar producto por color
-
-        Para salir, ingrese 0`));
+const container = document.getElementById("container");
+function crearCard(listaDeProductos) {
+    const card = document.createElement("div");
+    card.className = "card";
     
-    switch (opcion) {
-        case 0:
-            alert ('Gracias por tu visita, esperamos tu regreso!')
-            break;
-        case 1:
-            console.log('Lista de productos' ,listaDeProductos)
-            break;
+    const nombreProducto = document.createElement("h3");
+    nombreProducto.innerText = listaDeProductos.nombreDelProducto;
+    
+    const precio = document.createElement("p");
+    precio.innerText = listaDeProductos.precio;
+    
+    const img = document.createElement("img");
+    img.src = listaDeProductos.src;
+    img.className = "img"
 
-        case 2:
-            const stock = listaDeProductos.filter (el => el.stock)
-            console.log('El stock de BLURA',stock)
-            alert('En la consola podes ver los productos con entrega inmediata')
-                break;
+    const boton = document.createElement("button");
+    boton.innerText = "Agregar al carrito";
+    boton.onclick = () => agregarAlCarrito(producto);
+    
+    card.append(nombreProducto);
+    card.append(precio);
+    card.append(img);
+    card.append(boton);
+    
+    container.append(card);
+};
+    
+listaDeProductos.forEach(el => { crearCard(el)
+});
 
-        case 3:
-            const productoABuscar = prompt('Ingrese el nombre del producto que busca').toUpperCase()
-            const nombreDelProducto = listaDeProductos.find(el => el.nombreDelProducto === productoABuscar)
-            console.log('El producto que buscabas es', nombreDelProducto)
-            alert('En la consola está en resultado de tu busqueda')
-                break;
-        
-        case 4:
-            const colorABuscar = prompt('Ingrese el color del producto que busca').toUpperCase()
-            const color = listaDeProductos.find(el => el.color === colorABuscar)
-            console.log('Productos del color que buscabas', color)
-            alert('En la consola está en resultado de tu busqueda')
-                break;
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-        default:
-            alert('Opcion no válida, ingrese la correcta.');
-            break;
-    }
-} while (opcion !== 0)
+function agregarAlCarrito(listaDeProductos){
+if(carrito.some(el => el.id === listaDeProductos.id)){
+    const indexProducto = carrito.findIndex(el => el.id === listaDeProductos.id);
+    carrito[indexProducto].cantidad += 1;
+    carrito[indexProducto].subtotal = carrito[indexProducto].cantidad * carrito[indexProducto].precio;
+} else {
+    const nuevoProducto = {
+        nombre: listaDeProductos.nombre,
+        precio: listaDeProductos.precio,
+        cantidad: 1,
+        subtotal:carrito[indexProducto].subtotal,
+
+    };
+    carrito.push(nuevoProducto);
+    localStorage.setItem("carrito", JSON.stringify(carrito))
+}};
+
+
+
+const mostrar = document.createElement("button");
+mostrar.innerText = "Mostrar carrito";
+
+mostrar.addEventListener("click", () => {
+    carrito.forEach(el=> crearCard(el));
+});
+const limpiar = document.createElement("button");
+limpiar.innerText = "Limpiar carrito";
+
+limpiar.addEventListener("click", () => {
+    carrito = [];
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+});
+
+container.append(mostrar);
+container.append(limpiar);
